@@ -183,8 +183,7 @@ if page == "Player Progress Predictor from start of 2021 to end of 2022":
                 "Avg Rating": [avg_rating_21, avg_rating_22],
                 "Avg Market Value (€)": [avg_value_21, avg_value_22]
             })
-                    st.dataframe(avg_df.style.format({"Avg Market Value (€)": "€{:.0f}", "Avg Rating": "{:.2f}"}))
-    
+            st.dataframe(avg_df.style.format({"Avg Market Value (€)": "€{:.0f}", "Avg Rating": "{:.2f}"}))
             # Bar charts for average comparisons
             st.markdown("### Average Stats Comparison")
             st.markdown("**Average Rating:**")
