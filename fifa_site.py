@@ -7,9 +7,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, classification_report
 
 # --- Page config ---
-st.set_page_config(page_title="FIFA 2026 AI Predictor", page_icon= "fifa.png", layout="wide")
+st.set_page_config(page_title="FIFA AI Predictor", page_icon= "fifa.png", layout="wide")
 
-st.title("FIFA 2026 AI Predictor")
+st.title("FIFA AI Predictor")
 st.markdown("Welcome to your interactive AI-based player and match forecasting tool!")
 
 # --- Sidebar Navigation ---
