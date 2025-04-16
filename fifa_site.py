@@ -157,46 +157,51 @@ if page == "Player Progress Predictor from start of 2021 to end of 2022":
             
 
     with col2:
-        st.markdown("### 2022 Player Stats")
-        st.markdown("**Top 10 Players by Overall Rating (2022):**")
-        st.table(df_22.sort_values("overall", ascending=False).head(10)[["short_name", "club_name", "overall", "value_eur"]])
+        try:
+            st.markdown("### 2022 Player Stats")
+            st.markdown("**Top 10 Players by Overall Rating (2022):**")
+            st.table(df_22.sort_values("overall", ascending=False).head(10)[["short_name", "club_name", "overall", "value_eur"]])
+    
+            rating_bins_22 = pd.cut(df_22["overall"], bins=10)
+            rating_dist_22 = rating_bins_22.value_counts().sort_index()
+            rating_dist_22.index = rating_dist_22.index.astype(str)
+            st.bar_chart(rating_dist_22)
+    
+            value_bins_22 = pd.cut(df_22["value_eur"], bins=10)
+            value_dist_22 = value_bins_22.value_counts().sort_index()
+            value_dist_22.index = value_dist_22.index.astype(str)
+            st.bar_chart(value_dist_22)
+    
+        st.subheader("Average Comparison Between Years")
+        avg_rating_21 = df_21["overall"].mean()
+        avg_rating_22 = df_22["overall"].mean()
+        avg_value_21 = df_21["value_eur"].mean()
+        avg_value_22 = df_22["value_eur"].mean()
+    
+        avg_df = pd.DataFrame({
+            "Year": ["2021", "2022"],
+            "Avg Rating": [avg_rating_21, avg_rating_22],
+            "Avg Market Value (€)": [avg_value_21, avg_value_22]
+        })
+    
+        st.dataframe(avg_df.style.format({"Avg Market Value (€)": "€{:.0f}", "Avg Rating": "{:.2f}"}))
+    
+        # Bar charts for average comparisons
+        st.markdown("### Average Stats Comparison")
+        st.markdown("**Average Rating:**")
+        st.bar_chart(pd.DataFrame({
+            "Year": ["2021", "2022"],
+            "Avg Rating": [avg_rating_21, avg_rating_22]
+        }).set_index("Year"))
+    
+        st.markdown("**Average Market Value (€):**")
+        st.bar_chart(pd.DataFrame({
+            "Year": ["2021", "2022"],
+            "Avg Market Value (€)": [avg_value_21, avg_value_22]
+        }).set_index("Year"))
+    except ValueError:
+        st.error("The data does not exist")
+        st.stop()
 
-        rating_bins_22 = pd.cut(df_22["overall"], bins=10)
-        rating_dist_22 = rating_bins_22.value_counts().sort_index()
-        rating_dist_22.index = rating_dist_22.index.astype(str)
-        st.bar_chart(rating_dist_22)
-
-        value_bins_22 = pd.cut(df_22["value_eur"], bins=10)
-        value_dist_22 = value_bins_22.value_counts().sort_index()
-        value_dist_22.index = value_dist_22.index.astype(str)
-        st.bar_chart(value_dist_22)
-
-    st.subheader("Average Comparison Between Years")
-    avg_rating_21 = df_21["overall"].mean()
-    avg_rating_22 = df_22["overall"].mean()
-    avg_value_21 = df_21["value_eur"].mean()
-    avg_value_22 = df_22["value_eur"].mean()
-
-    avg_df = pd.DataFrame({
-        "Year": ["2021", "2022"],
-        "Avg Rating": [avg_rating_21, avg_rating_22],
-        "Avg Market Value (€)": [avg_value_21, avg_value_22]
-    })
-
-    st.dataframe(avg_df.style.format({"Avg Market Value (€)": "€{:.0f}", "Avg Rating": "{:.2f}"}))
-
-    # Bar charts for average comparisons
-    st.markdown("### Average Stats Comparison")
-    st.markdown("**Average Rating:**")
-    st.bar_chart(pd.DataFrame({
-        "Year": ["2021", "2022"],
-        "Avg Rating": [avg_rating_21, avg_rating_22]
-    }).set_index("Year"))
-
-    st.markdown("**Average Market Value (€):**")
-    st.bar_chart(pd.DataFrame({
-        "Year": ["2021", "2022"],
-        "Avg Market Value (€)": [avg_value_21, avg_value_22]
-    }).set_index("Year"))
 
 
